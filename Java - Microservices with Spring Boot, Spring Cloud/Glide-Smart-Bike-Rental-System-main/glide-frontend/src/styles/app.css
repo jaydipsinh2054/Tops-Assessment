@@ -1,0 +1,272 @@
+/* =====================================================
+   GLIDE - GLOBAL DESIGN SYSTEM
+===================================================== */
+
+:root{
+
+    --primary:#2563eb;
+    --success:#10b981;
+    --warning:#f59e0b;
+    --danger:#ef4444;
+
+    --sidebar:#111827;
+
+    --background:#f4f7fb;
+
+    --card:#ffffff;
+
+    --text:#1f2937;
+
+    --muted:#6b7280;
+
+    --radius:16px;
+
+    --shadow:0 8px 24px rgba(0,0,0,.08);
+
+}
+
+/* =====================================================
+   RESET
+===================================================== */
+
+*{
+
+    margin:0;
+
+    padding:0;
+
+    box-sizing:border-box;
+
+}
+
+body{
+
+    font-family:"Segoe UI",Tahoma,Geneva,Verdana,sans-serif;
+
+    background:var(--background);
+
+    color:var(--text);
+
+}
+
+a{
+
+    text-decoration:none;
+
+    color:inherit;
+
+}
+
+button{
+
+    font-family:inherit;
+
+}
+
+/* =====================================================
+   NAVBAR
+===================================================== */
+
+.navbar{
+
+    background:white !important;
+
+    box-shadow:var(--shadow);
+
+    height:75px;
+
+    z-index:100;
+
+}
+
+/* =====================================================
+   SIDEBAR
+===================================================== */
+
+.sidebar{
+
+    width:260px;
+
+    min-height:100vh;
+
+    background:var(--sidebar);
+
+    color:white;
+
+    position:sticky;
+
+    top:0;
+
+}
+
+.sidebar .nav-link{
+
+    color:#d1d5db;
+
+    border-radius:12px;
+
+    padding:13px 18px;
+
+    margin-bottom:8px;
+
+    transition:.25s;
+
+    font-weight:500;
+
+}
+
+.sidebar .nav-link:hover{
+
+    background:var(--primary);
+
+    color:white;
+
+    transform:translateX(5px);
+
+}
+
+.sidebar .nav-link.active{
+
+    background:var(--primary);
+
+    color:white !important;
+
+    font-weight:600;
+
+}
+
+/* =====================================================
+   DASHBOARD
+===================================================== */
+
+.dashboard-title{
+
+    font-size:2.2rem;
+
+    font-weight:700;
+
+    margin-bottom:25px;
+
+}
+
+/* =====================================================
+   CARDS
+===================================================== */
+
+.card{
+
+    border:none;
+
+    border-radius:var(--radius);
+
+    box-shadow:var(--shadow);
+
+    transition:.25s;
+
+}
+
+.card:hover{
+
+    transform:translateY(-6px);
+
+}
+
+/* =====================================================
+   BUTTONS
+===================================================== */
+
+.btn{
+
+    border-radius:10px;
+
+}
+
+/* =====================================================
+   SCROLLBAR
+===================================================== */
+
+::-webkit-scrollbar{
+
+    width:8px;
+
+}
+
+::-webkit-scrollbar-thumb{
+
+    background:var(--primary);
+
+    border-radius:20px;
+
+}
+
+/* =====================================================
+   STAT CARDS
+===================================================== */
+
+.stat-card{
+
+    border:none;
+
+    border-radius:18px;
+
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+
+    transition:.3s;
+
+}
+
+.stat-card:hover{
+
+    transform:translateY(-8px);
+
+}
+
+.stat-icon{
+
+    width:65px;
+
+    height:65px;
+
+    border-radius:16px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    color:white;
+
+    font-size:28px;
+
+}
+
+/* =====================================================
+   DASHBOARD LAYOUT
+===================================================== */
+
+.sidebar{
+
+    width:260px;
+
+    min-height:100vh;
+
+    flex-shrink:0;
+
+}
+
+.main-content{
+
+    flex:1;
+
+    min-height:100vh;
+
+    background:#f4f7fb;
+
+}
+
+.content-wrapper{
+
+    padding:30px;
+
+}
