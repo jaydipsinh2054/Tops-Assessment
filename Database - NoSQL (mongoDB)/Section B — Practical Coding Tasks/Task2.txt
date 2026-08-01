@@ -1,0 +1,130 @@
+Question
+Apply MongoDB query operators to retrieve specific subsets of order data from the QuickEats orders collection.
+
+Requirements
+1.Insert at least 8 order documents into an orders collection. Each order must include:
+	customerId (string)
+	restaurantName (string)
+	items (array of objects)
+	totalAmount (number)
+	status (pending, confirmed, or delivered)
+	orderDate (ISODate)
+2.Write a query using $gt and $eq to find all orders with totalAmount greater than Rs. 400 and status equal to "delivered".
+3.Write another query using $in to find orders where the status is either "pending" or "confirmed".
+4.Add a projection to return only customerId, totalAmount, and status.
+5.Sort the result by totalAmount in descending order and limit it to 5 documents.
+
+Answer
+Insert 8 Order Documents
+db.orders.insertMany([
+{
+    customerId: "C101",
+    restaurantName: "Pizza Palace",
+    items: [
+        { itemName: "Veg Pizza", quantity: 2, price: 250 }
+    ],
+    totalAmount: 500,
+    status: "delivered",
+    orderDate: ISODate("2026-08-01T10:00:00Z")
+},
+{
+    customerId: "C102",
+    restaurantName: "Spice Villa",
+    items: [
+        { itemName: "Paneer Butter Masala", quantity: 1, price: 280 }
+    ],
+    totalAmount: 280,
+    status: "pending",
+    orderDate: ISODate("2026-08-02T11:30:00Z")
+},
+{
+    customerId: "C103",
+    restaurantName: "Dragon Wok",
+    items: [
+        { itemName: "Hakka Noodles", quantity: 2, price: 180 }
+    ],
+    totalAmount: 450,
+    status: "confirmed",
+    orderDate: ISODate("2026-08-03T12:15:00Z")
+},
+{
+    customerId: "C104",
+    restaurantName: "Burger Hub",
+    items: [
+        { itemName: "Cheese Burger", quantity: 3, price: 160 }
+    ],
+    totalAmount: 480,
+    status: "delivered",
+    orderDate: ISODate("2026-08-04T01:45:00Z")
+},
+{
+    customerId: "C105",
+    restaurantName: "South Express",
+    items: [
+        { itemName: "Masala Dosa", quantity: 4, price: 140 }
+    ],
+    totalAmount: 560,
+    status: "pending",
+    orderDate: ISODate("2026-08-05T09:20:00Z")
+},
+{
+    customerId: "C106",
+    restaurantName: "Pizza Palace",
+    items: [
+        { itemName: "Garlic Bread", quantity: 5, price: 120 }
+    ],
+    totalAmount: 600,
+    status: "confirmed",
+    orderDate: ISODate("2026-08-06T08:10:00Z")
+},
+{
+    customerId: "C107",
+    restaurantName: "Spice Villa",
+    items: [
+        { itemName: "Butter Naan", quantity: 10, price: 40 }
+    ],
+    totalAmount: 400,
+    status: "delivered",
+    orderDate: ISODate("2026-08-07T06:40:00Z")
+},
+{
+    customerId: "C108",
+    restaurantName: "Burger Hub",
+    items: [
+        { itemName: "French Fries", quantity: 6, price: 90 }
+    ],
+    totalAmount: 540,
+    status: "delivered",
+    orderDate: ISODate("2026-08-08T03:30:00Z")
+}
+])
+
+Query Using $gt and $eq
+db.orders.find({
+    totalAmount: { $gt: 400 },
+    status: { $eq: "delivered" }
+})
+
+Query Using $in
+db.orders.find({
+    status: { $in: ["pending", "confirmed"] }
+})
+
+Projection, Sorting, and Limit
+db.orders.find(
+    {
+        status: { $in: ["pending", "confirmed"] }
+    },
+    {
+        _id: 0,
+        customerId: 1,
+        totalAmount: 1,
+        status: 1
+    }
+).sort({ totalAmount: -1 }).limit(5)
+
+Expected Output (Example)
+{ customerId: "C106", totalAmount: 600, status: "confirmed" }
+{ customerId: "C105", totalAmount: 560, status: "pending" }
+{ customerId: "C103", totalAmount: 450, status: "confirmed" }
+{ customerId: "C102", totalAmount: 280, status: "pending" }

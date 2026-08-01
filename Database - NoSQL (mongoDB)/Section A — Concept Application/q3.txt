@@ -1,0 +1,63 @@
+Question
+Write a MongoDB query using $in, $eq, and $gt to retrieve only matching orders. Also write a query that uses projection to return only customerName, totalAmount, and status, with results sorted by totalAmount descending and limited to 10 documents. Explain what each operator does in this context.
+
+Answer
+Query Using $in, $eq, and $gt
+db.orders.find({
+    status: { $in: ["pending", "confirmed"] },
+    customerName: { $eq: "Rahul" },
+    totalAmount: { $gt: 500 }
+})
+
+Query with Projection, Sorting, and Limit
+db.orders.find(
+    {
+        status: { $in: ["pending", "confirmed"] },
+        customerName: { $eq: "Rahul" },
+        totalAmount: { $gt: 500 }
+    },
+    {
+        _id: 0,
+        customerName: 1,
+        totalAmount: 1,
+        status: 1
+    }
+).sort({ totalAmount: -1 }).limit(10)
+
+Explanation of Operators
+
+1. $in
+Matches documents where the field value exists in the given array.
+Here, it retrieves orders whose status is either "pending" or "confirmed".
+status: { $in: ["pending", "confirmed"] }
+
+2. $eq
+Matches documents where the field is exactly equal to the specified value.
+Here, it returns orders placed by Rahul.
+customerName: { $eq: "Rahul" }
+
+3. $gt
+Returns documents where the field value is greater than the specified value.
+Here, it retrieves orders with totalAmount greater than Rs. 500.
+totalAmount: { $gt: 500 }
+
+4. Projection
+Projection selects only the required fields.
+{
+    _id: 0,
+    customerName: 1,
+    totalAmount: 1,
+    status: 1
+}
+1 → Include the field.
+0 → Exclude the _id field.
+5. sort()
+
+Sorts the documents by totalAmount in descending order.
+.sort({ totalAmount: -1 })
+-1 → Descending order.
+1 → Ascending order.
+6. limit()
+
+Returns only the first 10 documents.
+.limit(10)

@@ -1,0 +1,23 @@
+Requirement
+Create a database named quickeats_db with the following collections:
+restaurants
+orders
+customers
+
+Answer
+
+Create Database
+use quickeats_db
+
+Create Collections
+db.createCollection("restaurants")
+db.createCollection("orders")
+db.createCollection("customers")
+
+Verify Collections
+show collections
+
+Expected Output
+customers
+orders
+restaurants

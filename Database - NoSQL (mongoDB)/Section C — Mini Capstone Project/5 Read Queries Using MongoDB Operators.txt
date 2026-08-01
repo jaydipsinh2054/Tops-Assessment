@@ -1,0 +1,68 @@
+Requirement
+Write at least 3 read queries using a combination of $gt, $lt, $in, $eq, and projection.
+
+Query 1: Find Restaurants with Rating Greater Than 4
+Using $gt
+db.restaurants.find(
+    {
+        rating: { $gt: 4 }
+    },
+    {
+        _id: 0,
+        name: 1,
+        cuisine: 1,
+        rating: 1
+    }
+)
+Explanation
+$gt → Finds restaurants with a rating greater than 4.
+Projection displays only name, cuisine, and rating.
+
+Query 2: Find Orders with Status "Pending" or "Confirmed"
+Using $in
+db.orders.find(
+    {
+        status: { $in: ["pending", "confirmed"] }
+    },
+    {
+        _id: 0,
+        customerId: 1,
+        restaurantName: 1,
+        totalAmount: 1,
+        status: 1
+    }
+)
+Explanation
+$in returns orders whose status is either pending or confirmed.
+Projection displays only the required fields.
+
+Query 3: Find Customers from Ahmedabad
+Using $eq
+db.customers.find(
+    {
+        city: { $eq: "Ahmedabad" }
+    },
+    {
+        _id: 0,
+        customerId: 1,
+        name: 1,
+        city: 1,
+        loyaltyPoints: 1
+    }
+)
+Explanation
+$eq finds customers whose city is exactly Ahmedabad.
+Projection displays customer details without _id.
+
+Bonus Query (Using $lt)
+Find restaurants with a rating less than 4.5.
+db.restaurants.find(
+    {
+        rating: { $lt: 4.5 }
+    },
+    {
+        _id: 0,
+        name: 1,
+        rating: 1
+    }
+)

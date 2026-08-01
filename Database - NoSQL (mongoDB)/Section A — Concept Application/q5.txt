@@ -1,0 +1,86 @@
+Question
+Write a MongoDB aggregation pipeline using $match, $group, $project, and $sort to produce this report. Explain what each stage does and why aggregation pipelines are more efficient for this task than reading all documents into Node.js and calculating totals there.
+
+Answer
+MongoDB Aggregation Pipeline
+db.orders.aggregate([
+    {
+        $match: {
+            status: "delivered"
+        }
+    },
+    {
+        $group: {
+            _id: "$restaurantName",
+            totalRevenue: { $sum: "$totalAmount" },
+            completedOrders: { $sum: 1 }
+        }
+    },
+    {
+        $project: {
+            _id: 0,
+            restaurantName: "$_id",
+            totalRevenue: 1,
+            completedOrders: 1
+        }
+    },
+    {
+        $sort: {
+            totalRevenue: -1
+        }
+    }
+])
+
+Explanation of Each Stage
+
+1. $match
+Filters only the documents where the order status is "delivered".
+{
+    $match: {
+        status: "delivered"
+    }
+}
+Only completed orders are included in the revenue report.
+
+2. $group
+Groups the filtered documents by restaurantName.
+{
+    $group: {
+        _id: "$restaurantName",
+        totalRevenue: { $sum: "$totalAmount" },
+        completedOrders: { $sum: 1 }
+    }
+}
+$_id groups documents by restaurant name.
+$sum: "$totalAmount" calculates the total revenue.
+$sum: 1 counts the number of completed orders.
+
+3. $project
+Formats the output.
+{
+    $project: {
+        _id: 0,
+        restaurantName: "$_id",
+        totalRevenue: 1,
+        completedOrders: 1
+    }
+}
+Removes the default _id field.
+Renames _id to restaurantName.
+Displays only the required fields.
+
+4. $sort
+Sorts the report by totalRevenue in descending order.
+{
+    $sort: {
+        totalRevenue: -1
+    }
+}
+-1 → Descending order (highest revenue first).
+Why Aggregation Pipelines are More Efficient
+
+Aggregation pipelines are more efficient because:
+Processing is done inside the MongoDB server, reducing application workload.
+Only the required results are returned to the application, reducing network traffic.
+MongoDB is optimized for aggregation operations, making reports faster on large datasets.
+It avoids loading all documents into Node.js, which saves memory and improves performance.

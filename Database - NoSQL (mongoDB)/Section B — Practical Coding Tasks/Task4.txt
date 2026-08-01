@@ -1,0 +1,118 @@
+Question
+Build a multi-stage aggregation pipeline on the orders collection to generate a restaurant-wise revenue summary for the QuickEats admin panel.
+
+Requirements
+1.Use $match as the first stage to filter only orders with status "delivered".
+2.Use $group to group filtered orders by restaurantName, computing:
+	totalRevenue as the sum of totalAmount
+	orderCount as the count of documents per group
+3.Use $project to display:
+	restaurantName
+	totalRevenue
+	orderCount
+	Suppress the default _id field
+4.Use $sort to sort by totalRevenue in descending order.
+5.Use $limit to display only the top 3 restaurants.
+
+Answer
+MongoDB Aggregation Pipeline
+db.orders.aggregate([
+    {
+        $match: {
+            status: "delivered"
+        }
+    },
+    {
+        $group: {
+            _id: "$restaurantName",
+            totalRevenue: { $sum: "$totalAmount" },
+            orderCount: { $sum: 1 }
+        }
+    },
+    {
+        $project: {
+            _id: 0,
+            restaurantName: "$_id",
+            totalRevenue: 1,
+            orderCount: 1
+        }
+    },
+    {
+        $sort: {
+            totalRevenue: -1
+        }
+    },
+    {
+        $limit: 3
+    }
+])
+Explanation
+
+$match
+Filters only the orders with "delivered" status.
+{
+    $match: {
+        status: "delivered"
+    }
+}
+
+$group
+Groups the filtered documents by restaurantName.
+{
+    $group: {
+        _id: "$restaurantName",
+        totalRevenue: { $sum: "$totalAmount" },
+        orderCount: { $sum: 1 }
+    }
+}
+$_id → Groups documents by restaurant name.
+$sum: "$totalAmount" → Calculates total revenue.
+$sum: 1 → Counts the number of delivered orders.
+
+$project
+Formats the output.
+{
+    $project: {
+        _id: 0,
+        restaurantName: "$_id",
+        totalRevenue: 1,
+        orderCount: 1
+    }
+}
+Removes the _id field.
+Renames _id to restaurantName.
+Displays only the required fields.
+
+$sort
+Sorts restaurants by totalRevenue in descending order.
+{
+    $sort: {
+        totalRevenue: -1
+    }
+}
+-1 → Descending order (highest revenue first).
+Step 5: $limit
+
+Displays only the top 3 restaurants.
+{
+    $limit: 3
+}
+
+Expected Output (Example)
+[
+  {
+    restaurantName: "Pizza Palace",
+    totalRevenue: 1100,
+    orderCount: 2
+  },
+  {
+    restaurantName: "Burger Hub",
+    totalRevenue: 1020,
+    orderCount: 2
+  },
+  {
+    restaurantName: "South Express",
+    totalRevenue: 850,
+    orderCount: 1
+  }
+]

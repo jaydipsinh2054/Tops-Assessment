@@ -1,0 +1,121 @@
+Requirement
+Insert at least 5 restaurant documents into the restaurants collection. Each document must include:
+name
+cuisine
+city
+rating
+isOpen
+menu (array with at least 2 items)
+
+Answer
+Insert 5 Restaurant Documents
+db.restaurants.insertMany([
+{
+    name: "Pizza Palace",
+    cuisine: "Italian",
+    city: "Ahmedabad",
+    rating: 4.5,
+    isOpen: true,
+    menu: [
+        {
+            itemName: "Veg Pizza",
+            price: 250
+        },
+        {
+            itemName: "Garlic Bread",
+            price: 120
+        }
+    ]
+},
+{
+    name: "Spice Villa",
+    cuisine: "Indian",
+    city: "Surat",
+    rating: 4.7,
+    isOpen: true,
+    menu: [
+        {
+            itemName: "Paneer Butter Masala",
+            price: 280
+        },
+        {
+            itemName: "Butter Naan",
+            price: 40
+        }
+    ]
+},
+{
+    name: "Dragon Wok",
+    cuisine: "Chinese",
+    city: "Vadodara",
+    rating: 4.3,
+    isOpen: false,
+    menu: [
+        {
+            itemName: "Hakka Noodles",
+            price: 180
+        },
+        {
+            itemName: "Manchurian",
+            price: 220
+        }
+    ]
+},
+{
+    name: "Burger Hub",
+    cuisine: "Fast Food",
+    city: "Rajkot",
+    rating: 4.2,
+    isOpen: true,
+    menu: [
+        {
+            itemName: "Cheese Burger",
+            price: 160
+        },
+        {
+            itemName: "French Fries",
+            price: 90
+        }
+    ]
+},
+{
+    name: "South Express",
+    cuisine: "South Indian",
+    city: "Bhavnagar",
+    rating: 4.8,
+    isOpen: true,
+    menu: [
+        {
+            itemName: "Masala Dosa",
+            price: 140
+        },
+        {
+            itemName: "Idli Sambhar",
+            price: 100
+        }
+    ]
+}
+])
+
+Verify the Data
+db.restaurants.find().pretty()
+
+Expected Output (Example)
+{
+    "_id": ObjectId("..."),
+    "name": "Pizza Palace",
+    "cuisine": "Italian",
+    "city": "Ahmedabad",
+    "rating": 4.5,
+    "isOpen": true,
+    "menu": [
+        {
+            "itemName": "Veg Pizza",
+            "price": 250
+        },
+        {
+            "itemName": "Garlic Bread",
+            "price": 120
+        }
+    ]
+}

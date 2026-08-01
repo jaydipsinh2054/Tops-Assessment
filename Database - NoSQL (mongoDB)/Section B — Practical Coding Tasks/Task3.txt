@@ -1,0 +1,106 @@
+Question
+Modify existing order documents in the orders collection to reflect real-time status changes in the QuickEats delivery workflow.
+
+Requirements
+1.Use updateOne() with $set to change the status of one "pending" order to "confirmed" and add a confirmedAt field set to the current date.
+2.Use updateMany() with $set to mark all "confirmed" orders as "delivered".
+3.Use $push to add a new entry { event: "dispatched", time: new Date() } to a deliveryLog array inside one specific order document.
+4.Use $unset to remove the confirmedAt field from at least one order.
+5.Verify all changes by running find() queries after each update.
+
+Answer
+Update One Pending Order
+Change one pending order to confirmed and add the current date.
+db.orders.updateOne(
+    { status: "pending" },
+    {
+        $set: {
+            status: "confirmed",
+            confirmedAt: new Date()
+        }
+    }
+)
+
+Verify
+db.orders.find({ status: "confirmed" })
+
+Update All Confirmed Orders
+Change all confirmed orders to delivered.
+db.orders.updateMany(
+    { status: "confirmed" },
+    {
+        $set: {
+            status: "delivered"
+        }
+    }
+)
+
+Verify
+db.orders.find({ status: "delivered" })
+
+Add Delivery Log Using $push
+Add a dispatch event to one specific order.
+db.orders.updateOne(
+    { customerId: "C101" },
+    {
+        $push: {
+            deliveryLog: {
+                event: "dispatched",
+                time: new Date()
+            }
+        }
+    }
+)
+
+Verify
+db.orders.find(
+    { customerId: "C101" },
+    {
+        _id: 0,
+        customerId: 1,
+        deliveryLog: 1
+    }
+)
+
+Remove confirmedAt Field Using $unset
+db.orders.updateOne(
+    { customerId: "C101" },
+    {
+        $unset: {
+            confirmedAt: ""
+        }
+    }
+)
+
+Verify
+db.orders.find(
+    { customerId: "C101" }
+)
+
+Expected Output
+After 1
+{
+    customerId: "C102",
+    status: "confirmed",
+    confirmedAt: ISODate("2026-08-01T12:30:00Z")
+}
+After 2
+{
+    customerId: "C103",
+    status: "delivered"
+}
+After 3
+{
+    customerId: "C101",
+    deliveryLog: [
+        {
+            event: "dispatched",
+            time: ISODate("2026-08-01T13:00:00Z")
+        }
+    ]
+}
+After 4
+{
+    customerId: "C101",
+    status: "delivered"
+}

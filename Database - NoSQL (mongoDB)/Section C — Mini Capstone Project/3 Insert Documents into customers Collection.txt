@@ -1,0 +1,128 @@
+Requirement
+Insert at least 5 customer documents into the customers collection. Each document must contain:
+customerId
+name
+email
+phone
+city
+loyaltyPoints
+addresses (array with at least 2 addresses)
+
+Answer
+Insert 5 Customer Documents
+db.customers.insertMany([
+{
+    customerId: "C101",
+    name: "Rahul Sharma",
+    email: "rahul@gmail.com",
+    phone: "9876543210",
+    city: "Ahmedabad",
+    loyaltyPoints: 120,
+    addresses: [
+        {
+            type: "Home",
+            address: "Satellite, Ahmedabad"
+        },
+        {
+            type: "Office",
+            address: "SG Highway, Ahmedabad"
+        }
+    ]
+},
+{
+    customerId: "C102",
+    name: "Priya Patel",
+    email: "priya@gmail.com",
+    phone: "9876501234",
+    city: "Surat",
+    loyaltyPoints: 80,
+    addresses: [
+        {
+            type: "Home",
+            address: "Adajan, Surat"
+        },
+        {
+            type: "Office",
+            address: "Vesu, Surat"
+        }
+    ]
+},
+{
+    customerId: "C103",
+    name: "Amit Shah",
+    email: "amit@gmail.com",
+    phone: "9898989898",
+    city: "Vadodara",
+    loyaltyPoints: 150,
+    addresses: [
+        {
+            type: "Home",
+            address: "Alkapuri, Vadodara"
+        },
+        {
+            type: "Office",
+            address: "Fatehgunj, Vadodara"
+        }
+    ]
+},
+{
+    customerId: "C104",
+    name: "Neha Verma",
+    email: "neha@gmail.com",
+    phone: "9123456789",
+    city: "Rajkot",
+    loyaltyPoints: 95,
+    addresses: [
+        {
+            type: "Home",
+            address: "Kalavad Road, Rajkot"
+        },
+        {
+            type: "Office",
+            address: "Yagnik Road, Rajkot"
+        }
+    ]
+},
+{
+    customerId: "C105",
+    name: "Rohan Mehta",
+    email: "rohan@gmail.com",
+    phone: "9988776655",
+    city: "Bhavnagar",
+    loyaltyPoints: 200,
+    addresses: [
+        {
+            type: "Home",
+            address: "Krishna Nagar, Bhavnagar"
+        },
+        {
+            type: "Office",
+            address: "Waghawadi Road, Bhavnagar"
+        }
+    ]
+}
+])
+
+Verify the Data
+db.customers.find().pretty()
+
+Expected Output (Example)
+{
+    "_id": ObjectId("..."),
+    "customerId": "C101",
+    "name": "Rahul Sharma",
+    "email": "rahul@gmail.com",
+    "phone": "9876543210",
+    "city": "Ahmedabad",
+    "loyaltyPoints": 120,
+    "addresses": [
+        {
+            "type": "Home",
+            "address": "Satellite, Ahmedabad"
+        },
+        {
+            "type": "Office",
+            "address": "SG Highway, Ahmedabad"
+        }
+    ]
+}

@@ -1,0 +1,31 @@
+Question:
+Explain why a document-oriented NoSQL database like MongoDB is better suited for this situation than a relational database. In your answer, address schema flexibility, data nesting, and horizontal scalability — and describe at least one concrete trade-off of choosing MongoDB.
+
+Answer
+MongoDB is better suited for this situation because it is a document-oriented NoSQL database that stores data in flexible JSON-like documents (BSON). Unlike MySQL, MongoDB does not require a fixed schema, making it easier to adapt as application requirements change.
+
+1. Schema Flexibility
+MongoDB allows documents in the same collection to have different fields. New fields such as isVeg, preparationTime, or addOns can be added to menu items without changing the entire database structure or migrating existing records. This makes development faster and reduces maintenance.
+
+2. Data Nesting
+MongoDB supports embedded documents and arrays, allowing related data to be stored together. For example, a restaurant document can contain a nested menu array with all menu items. This reduces the need for joins and improves query performance.
+
+Example:
+{
+  "name": "Quick Pizza",
+  "menu": [
+    {
+      "itemName": "Veg Pizza",
+      "price": 250,
+      "isVeg": true,
+      "preparationTime": 20,
+      "addOns": ["Extra Cheese", "Olives"]
+    }
+  ]
+}
+
+3. Horizontal Scalability
+MongoDB supports horizontal scaling through sharding. Data can be distributed across multiple servers, allowing the database to handle increasing numbers of users and orders efficiently. This makes MongoDB suitable for large, high-traffic applications.
+
+Trade-off
+One disadvantage of MongoDB is that it may provide less complex transaction support than traditional relational databases in some scenarios. Applications that require many complex joins or strict relational constraints may be easier to implement in a relational database like MySQL.

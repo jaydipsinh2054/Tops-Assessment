@@ -1,0 +1,99 @@
+Question
+Create a MongoDB database and insert a set of restaurant documents to form the data foundation of the QuickEats food delivery platform.
+
+Requirements:
+1.Create a database called quickeats_db.
+2.Create a collection called restaurants.
+3.Insert at least 5 restaurant documents using insertMany().
+4.Each document must include:
+	name (string)
+	cuisine (string)
+	city (string)
+	rating (number between 1–5)
+	isOpen (boolean)
+	menu (array of at least 2 items, each with itemName and price)
+Use find() with no filter to display all inserted documents.
+
+Answer
+
+Create Database
+use quickeats_db
+
+Create Collection
+db.createCollection("restaurants")
+
+Insert Restaurant Documents
+db.restaurants.insertMany([
+{
+    name: "Pizza Palace",
+    cuisine: "Italian",
+    city: "Ahmedabad",
+    rating: 4.5,
+    isOpen: true,
+    menu: [
+        { itemName: "Veg Pizza", price: 250 },
+        { itemName: "Garlic Bread", price: 120 }
+    ]
+},
+{
+    name: "Spice Villa",
+    cuisine: "Indian",
+    city: "Surat",
+    rating: 4.7,
+    isOpen: true,
+    menu: [
+        { itemName: "Paneer Butter Masala", price: 280 },
+        { itemName: "Butter Naan", price: 40 }
+    ]
+},
+{
+    name: "Dragon Wok",
+    cuisine: "Chinese",
+    city: "Vadodara",
+    rating: 4.3,
+    isOpen: false,
+    menu: [
+        { itemName: "Hakka Noodles", price: 180 },
+        { itemName: "Manchurian", price: 220 }
+    ]
+},
+{
+    name: "Burger Hub",
+    cuisine: "Fast Food",
+    city: "Rajkot",
+    rating: 4.2,
+    isOpen: true,
+    menu: [
+        { itemName: "Cheese Burger", price: 160 },
+        { itemName: "French Fries", price: 90 }
+    ]
+},
+{
+    name: "South Express",
+    cuisine: "South Indian",
+    city: "Bhavnagar",
+    rating: 4.8,
+    isOpen: true,
+    menu: [
+        { itemName: "Masala Dosa", price: 140 },
+        { itemName: "Idli Sambhar", price: 100 }
+    ]
+}
+])
+
+Display All Documents
+db.restaurants.find()
+
+Expected Output
+{
+  "_id": ObjectId("..."),
+  "name": "Pizza Palace",
+  "cuisine": "Italian",
+  "city": "Ahmedabad",
+  "rating": 4.5,
+  "isOpen": true,
+  "menu": [
+      { "itemName": "Veg Pizza", "price": 250 },
+      { "itemName": "Garlic Bread", "price": 120 }
+  ]
+}

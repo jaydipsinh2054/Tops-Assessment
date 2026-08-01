@@ -1,0 +1,127 @@
+1. Exact Prompt Given to the AI Tool
+Write a MongoDB aggregation pipeline for a collection named deliveries having the fields:
+driverId (string), orderId (string), restaurantName (string),
+deliveryTimeMinutes (number), tip (number), and status (string).
+The pipeline should:
+1. Filter only completed deliveries using $match.
+2. Group by driverId and calculate:
+   - avgDeliveryTime
+   - totalTips
+3. Sort the results by avgDeliveryTime in ascending order.
+4. Use $project to rename the output fields as driverID, avgDeliveryTime, and totalTips, while removing the default _id.
+
+2. AI's Original Pipeline
+db.deliveries.aggregate([
+  {
+    $match: {
+      status: "completed"
+    }
+  },
+  {
+    $group: {
+      _id: "$driverId",
+      avgDeliveryTime: {
+        $avg: "$deliveryTimeMinutes"
+      },
+      totalTips: {
+        $sum: "$tip"
+      }
+    }
+  },
+  {
+    $sort: {
+      avgDeliveryTime: 1
+    }
+  },
+  {
+    $project: {
+      _id: 0,
+      driverID: "$_id",
+      avgDeliveryTime: 1,
+      totalTips: 1
+    }
+  }
+]);
+
+Sample Data Used for Testing (mongosh)
+db.deliveries.insertMany([
+  {
+    driverId: "D101",
+    orderId: "O001",
+    restaurantName: "Pizza Hut",
+    deliveryTimeMinutes: 25,
+    tip: 50,
+    status: "completed"
+  },
+  {
+    driverId: "D101",
+    orderId: "O002",
+    restaurantName: "McDonald's",
+    deliveryTimeMinutes: 30,
+    tip: 40,
+    status: "completed"
+  },
+  {
+    driverId: "D102",
+    orderId: "O003",
+    restaurantName: "Domino's",
+    deliveryTimeMinutes: 20,
+    tip: 60,
+    status: "completed"
+  },
+  {
+    driverId: "D102",
+    orderId: "O004",
+    restaurantName: "KFC",
+    deliveryTimeMinutes: null,
+    tip: 30,
+    status: "completed"
+  },
+  {
+    driverId: "D103",
+    orderId: "O005",
+    restaurantName: "Burger King",
+    deliveryTimeMinutes: 35,
+    tip: 20,
+    status: "pending"
+  }
+]);
+
+Corrected Pipeline
+db.deliveries.aggregate([
+  {
+    $match: {
+      status: "completed",
+      deliveryTimeMinutes: { $ne: null }
+    }
+  },
+  {
+    $group: {
+      _id: "$driverId",
+      avgDeliveryTime: {
+        $avg: "$deliveryTimeMinutes"
+      },
+      totalTips: {
+        $sum: "$tip"
+      }
+    }
+  },
+  {
+    $sort: {
+      avgDeliveryTime: 1
+    }
+  },
+  {
+    $project: {
+      _id: 0,
+      driverID: "$_id",
+      avgDeliveryTime: {
+        $round: ["$avgDeliveryTime", 2]
+      },
+      totalTips: 1
+    }
+  }
+]);
+
+3. Explanation (3–4 Lines)
+While testing the pipeline in mongosh, I noticed that one document had deliveryTimeMinutes set to null. The original AI-generated pipeline did not explicitly filter such records, which could affect the average calculation if invalid data exists. I fixed this by adding deliveryTimeMinutes: { $ne: null } in the $match stage and rounded the average delivery time to two decimal places using $round to make the output cleaner and easier to read.

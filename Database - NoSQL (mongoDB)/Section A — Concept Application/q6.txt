@@ -1,0 +1,45 @@
+Question
+Explain how indexes work in MongoDB and why they reduce read query time. Write the command to create a compound index on {customerId: 1, status: 1}. Then evaluate the trade-off: under what conditions does adding an index hurt performance, and under what conditions is it clearly worth the cost?
+
+Answer
+How Indexes Work in MongoDB
+An index is a special data structure that stores the values of selected fields along with references to the corresponding documents. Instead of scanning every document in a collection, MongoDB uses the index to quickly locate matching documents.
+
+Without an index, MongoDB performs a collection scan (COLLSCAN), checking every document. With an index, it performs an index scan (IXSCAN), which is much faster.
+Why Indexes Reduce Read Query Time
+Indexes improve read performance because they:
+
+Allow MongoDB to locate matching documents quickly.
+Reduce the number of documents that need to be examined.
+
+Improve query performance on large collections.
+Speed up filtering, sorting, and searching operations.
+
+Create a Compound Index
+db.orders.createIndex(
+    {
+        customerId: 1,
+        status: 1
+    }
+)
+
+Explanation:
+customerId: 1 → Creates an ascending index on customerId.
+status: 1 → Creates an ascending index on status.
+Together, they form a compound index that optimizes queries filtering by both fields.
+
+Trade-offs of Adding an Index
+When an Index Can Hurt Performance
+
+Inserts become slower because MongoDB must update the index whenever a new document is inserted.
+Updates and deletes may also take longer since the index must be maintained.
+
+Additional disk space is required to store the index.
+Too many indexes increase memory usage and database maintenance.
+When an Index Is Worth the Cost
+
+Adding an index is beneficial when:
+The collection contains a large number of documents (e.g., 500,000+).
+Queries on customerId and status are executed frequently.
+Fast search performance is more important than slightly slower writes.
+The application requires quick response times for users.

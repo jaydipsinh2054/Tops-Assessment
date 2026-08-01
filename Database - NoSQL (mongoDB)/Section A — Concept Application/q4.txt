@@ -1,0 +1,77 @@
+Question
+Explain the difference between $set, $push, and $addToSet. Then write the updateOne() command that:
+Sets status to 'confirmed'
+Sets restaurantNote to 'Order accepted'
+Pushes { event: 'confirmed', time: new Date() } into the statusHistory array
+Justify which operator you chose for each field.
+
+Answer
+Difference Between $set, $push, and $addToSet
+
+1. $set
+Updates the value of an existing field or creates the field if it does not exist.
+Used to modify single field values.
+Example:
+db.orders.updateOne(
+    { customerName: "Rahul" },
+    { $set: { status: "confirmed" } }
+)
+
+2. $push
+Adds a new element to the end of an array.
+Allows duplicate values.
+Example:
+db.orders.updateOne(
+    { customerName: "Rahul" },
+    {
+        $push: {
+            statusHistory: {
+                event: "confirmed",
+                time: new Date()
+            }
+        }
+    }
+)
+
+3. $addToSet
+Adds an element to an array only if it does not already exist.
+Prevents duplicate entries.
+Example:
+db.orders.updateOne(
+    { customerName: "Rahul" },
+    {
+        $addToSet: {
+            tags: "priority"
+        }
+    }
+)
+
+updateOne() Command
+db.orders.updateOne(
+    { customerName: "Rahul" },
+    {
+        $set: {
+            status: "confirmed",
+            restaurantNote: "Order accepted"
+        },
+        $push: {
+            statusHistory: {
+                event: "confirmed",
+                time: new Date()
+            }
+        }
+    }
+)
+
+Justification
+Why $set?
+Used for status because the existing status needs to be updated from "pending" to "confirmed".
+Used for restaurantNote because it adds or updates a single field with the message "Order accepted".
+
+Why $push?
+Used for statusHistory because every status change should be recorded as a new event in the array.
+It keeps a complete history of order updates.
+
+Why not $addToSet?
+$addToSet prevents duplicate array elements.
+Here, every confirmation event should be recorded with a different timestamp, so $push is the appropriate choice.

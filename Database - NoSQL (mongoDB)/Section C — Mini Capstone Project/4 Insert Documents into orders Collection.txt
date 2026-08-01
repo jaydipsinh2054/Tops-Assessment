@@ -1,0 +1,133 @@
+Requirement
+Insert at least 5 order documents into the orders collection. Each document must include:
+customerId
+restaurantName
+items (array of objects)
+totalAmount
+status
+orderDate
+
+Answer
+Insert 5 Order Documents
+db.orders.insertMany([
+{
+    customerId: "C101",
+    restaurantName: "Pizza Palace",
+    items: [
+        {
+            itemName: "Veg Pizza",
+            quantity: 2,
+            price: 250
+        },
+        {
+            itemName: "Garlic Bread",
+            quantity: 1,
+            price: 120
+        }
+    ],
+    totalAmount: 620,
+    status: "delivered",
+    orderDate: ISODate("2026-08-01T10:30:00Z")
+},
+{
+    customerId: "C102",
+    restaurantName: "Spice Villa",
+    items: [
+        {
+            itemName: "Paneer Butter Masala",
+            quantity: 1,
+            price: 280
+        },
+        {
+            itemName: "Butter Naan",
+            quantity: 4,
+            price: 40
+        }
+    ],
+    totalAmount: 440,
+    status: "pending",
+    orderDate: ISODate("2026-08-02T12:00:00Z")
+},
+{
+    customerId: "C103",
+    restaurantName: "Dragon Wok",
+    items: [
+        {
+            itemName: "Hakka Noodles",
+            quantity: 2,
+            price: 180
+        },
+        {
+            itemName: "Manchurian",
+            quantity: 1,
+            price: 220
+        }
+    ],
+    totalAmount: 580,
+    status: "confirmed",
+    orderDate: ISODate("2026-08-03T02:15:00Z")
+},
+{
+    customerId: "C104",
+    restaurantName: "Burger Hub",
+    items: [
+        {
+            itemName: "Cheese Burger",
+            quantity: 2,
+            price: 160
+        },
+        {
+            itemName: "French Fries",
+            quantity: 2,
+            price: 90
+        }
+    ],
+    totalAmount: 500,
+    status: "delivered",
+    orderDate: ISODate("2026-08-04T06:45:00Z")
+},
+{
+    customerId: "C105",
+    restaurantName: "South Express",
+    items: [
+        {
+            itemName: "Masala Dosa",
+            quantity: 3,
+            price: 140
+        },
+        {
+            itemName: "Idli Sambhar",
+            quantity: 2,
+            price: 100
+        }
+    ],
+    totalAmount: 620,
+    status: "pending",
+    orderDate: ISODate("2026-08-05T08:20:00Z")
+}
+])
+
+Verify the Data
+db.orders.find().pretty()
+
+Expected Output (Example)
+{
+    "_id": ObjectId("..."),
+    "customerId": "C101",
+    "restaurantName": "Pizza Palace",
+    "items": [
+        {
+            "itemName": "Veg Pizza",
+            "quantity": 2,
+            "price": 250
+        },
+        {
+            "itemName": "Garlic Bread",
+            "quantity": 1,
+            "price": 120
+        }
+    ],
+    "totalAmount": 620,
+    "status": "delivered",
+    "orderDate": ISODate("2026-08-01T10:30:00Z")
+}

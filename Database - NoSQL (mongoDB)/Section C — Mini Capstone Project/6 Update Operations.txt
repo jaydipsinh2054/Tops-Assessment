@@ -1,0 +1,84 @@
+Requirement
+Write 3 update operations using:
+$set
+$push
+$inc
+
+These operations should cover:
+Updating an order status
+Appending to a delivery log array
+Incrementing a customer's loyalty points
+
+Answer
+1. Update Order Status Using $set
+Update the order status from pending to confirmed.
+db.orders.updateOne(
+    {
+        customerId: "C102"
+    },
+    {
+        $set: {
+            status: "confirmed"
+        }
+    }
+)
+
+Verify
+db.orders.find(
+    { customerId: "C102" },
+    {
+        _id: 0,
+        customerId: 1,
+        status: 1
+    }
+)
+
+2. Add Delivery Log Using $push
+Add a new delivery event to the deliveryLog array.
+db.orders.updateOne(
+    {
+        customerId: "C101"
+    },
+    {
+        $push: {
+            deliveryLog: {
+                event: "Order Dispatched",
+                time: new Date()
+            }
+        }
+    }
+)
+
+Verify
+db.orders.find(
+    { customerId: "C101" },
+    {
+        _id: 0,
+        customerId: 1,
+        deliveryLog: 1
+    }
+)
+
+3. Increase Loyalty Points Using $inc
+Increase Rahul Sharma's loyalty points by 50.
+db.customers.updateOne(
+    {
+        customerId: "C101"
+    },
+    {
+        $inc: {
+            loyaltyPoints: 50
+        }
+    }
+)
+
+Verify
+db.customers.find(
+    { customerId: "C101" },
+    {
+        _id: 0,
+        customerId: 1,
+        name: 1,
+        loyaltyPoints: 1
+    }
+)

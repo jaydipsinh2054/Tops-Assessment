@@ -1,0 +1,80 @@
+Question
+Describe the difference between insertOne() and insertMany(). Write the mongosh commands to create a database quickeats_db, create a collection orders, and insert two orders—one with insertOne() and one batch of three orders with insertMany(). Explain why insertMany() is preferred over multiple insertOne() calls for bulk inserts.
+
+Answer
+Difference between insertOne() and insertMany()
+
+insertOne()
+Inserts one document into a collection.
+Used when adding a single record.
+Syntax:
+
+db.collection.insertOne({ ... })
+insertMany()
+
+Inserts multiple documents in a single operation.
+Used for bulk data insertion.
+
+Faster and more efficient than multiple insertOne() calls.
+Syntax:
+
+db.collection.insertMany([
+   {...},
+   {...},
+   {...}
+])
+
+Create Database
+use quickeats_db
+
+Create Collection
+db.createCollection("orders")
+
+Insert One Order
+db.orders.insertOne({
+    customerName: "Rahul",
+    items: [
+        { name: "Veg Pizza", quantity: 2, price: 250 },
+        { name: "Coke", quantity: 1, price: 50 }
+    ],
+    totalAmount: 550,
+    deliveryAddress: "Ahmedabad",
+    status: "pending"
+})
+
+Insert Three Orders Using insertMany()
+db.orders.insertMany([
+{
+    customerName: "Priya",
+    items: [
+        { name: "Burger", quantity: 2, price: 150 }
+    ],
+    totalAmount: 300,
+    deliveryAddress: "Surat",
+    status: "confirmed"
+},
+{
+    customerName: "Amit",
+    items: [
+        { name: "Pasta", quantity: 1, price: 220 }
+    ],
+    totalAmount: 220,
+    deliveryAddress: "Vadodara",
+    status: "pending"
+},
+{
+    customerName: "Neha",
+    items: [
+        { name: "Sandwich", quantity: 3, price: 120 }
+    ],
+    totalAmount: 360,
+    deliveryAddress: "Rajkot",
+    status: "delivered"
+}
+])
+
+Why is insertMany() preferred?
+Inserts multiple documents in a single database request.
+Improves performance by reducing network communication.
+Faster than calling insertOne() repeatedly.
+More suitable for importing or seeding large amounts of data.
